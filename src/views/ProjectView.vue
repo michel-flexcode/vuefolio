@@ -1,7 +1,7 @@
 <template>
   <NavBar />
 <main>
-  <p>about</p>
+  <h1>Mes projets</h1>
 </main>
   <FooterBar />
 </template>
