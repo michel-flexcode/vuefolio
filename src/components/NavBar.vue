@@ -1,3 +1,7 @@
+<script setup>
+import SearchAutocomplete from "../components/SearchAutoComplete.vue";
+</script>
+
 <template>
   <!-- Test des hovers sur "/" -->
 
@@ -7,5 +11,6 @@
     >
     <router-link to="/about" class="text-white mx-4">About</router-link>
     <router-link to="/project" class="text-white mx-4">Projets</router-link>
+    <SearchAutocomplete />
   </nav>
 </template>
