@@ -1,8 +1,7 @@
 <template>
   <NavBar />
-<main>
-  <h1>Mes projets</h1>
-</main>
+  <main>
+    <TitleComponents>Mes projets</TitleComponents>
+  </main>
   <FooterBar />
 </template>
-
