@@ -1,13 +1,11 @@
 <script setup>
-import ContactFormComponent from "../components/ContactFormComponent.vue";
-import TableauComponent from "../components/TComponent.vue";
-import TitleComponents from "../components/TComponents.vue";
+import TableauComponent from "../components/TableauComponent.vue";
+import TitleComponents from "../components/TitleComponents.vue";
 </script>
 
 <template>
   <main>
-    <TitleComponents>Contact contact.view</TitleComponents>
+    <TitleComponents>Tableau Tableau.view</TitleComponents>
     <TableauComponent />
-    <ContactFormComponent />
   </main>
 </template>
