@@ -1,136 +1,69 @@
-<!-- https://www.digitalocean.com/community/tutorials/vuejs-vue-autocomplete-component -->
 <template>
-  <div class="autocomplete">
-    <input
-      type="text"
-      @input="onChange"
-      v-model="search"
-      @keydown.down="onArrowDown"
-      @keydown.up="onArrowUp"
-      @keydown.enter="onEnter"
-    />
-    <ul id="autocomplete-results" v-show="isOpen" class="autocomplete-results">
-      <li class="loading" v-if="isLoading">Loading results...</li>
-      <li
-        v-else
-        v-for="(result, i) in results"
-        :key="i"
-        @click="setResult(result)"
-        class="autocomplete-result"
-        :class="{ 'is-active': i === arrowCounter }"
-      >
-        {{ result }}
-      </li>
-    </ul>
+  <input type="text" v-model="input" placeholder="Search fruits..." />
+  <div class="item fruit" v-for="fruit in filteredList()" :key="fruit">
+    <p>{{ fruit }}</p>
+  </div>
+  <div class="item error" v-if="input && !filteredList().length">
+    <p>No results found!</p>
   </div>
 </template>
 
-<script>
-export default {
-  name: "SearchAutocomplete",
-  props: {
-    items: {
-      type: Array,
-      required: false,
-      default: () => [],
-    },
-    isAsync: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-  },
-  data() {
-    return {
-      isOpen: false,
-      results: [],
-      search: "",
-      isLoading: false,
-      arrowCounter: -1,
-    };
-  },
-  watch: {
-    items: function (value, oldValue) {
-      if (value.length !== oldValue.length) {
-        this.results = value;
-        this.isLoading = false;
-      }
-    },
-  },
-  mounted() {
-    document.addEventListener("click", this.handleClickOutside);
-  },
-  destroyed() {
-    document.removeEventListener("click", this.handleClickOutside);
-  },
-  methods: {
-    setResult(result) {
-      this.search = result;
-      this.isOpen = false;
-    },
-    filterResults() {
-      this.results = this.items.filter((item) => {
-        return item.toLowerCase().indexOf(this.search.toLowerCase()) > -1;
-      });
-    },
-    onChange() {
-      this.$emit("input", this.search);
-
-      if (this.isAsync) {
-        this.isLoading = true;
-      } else {
-        this.filterResults();
-        this.isOpen = true;
-      }
-    },
-    handleClickOutside(event) {
-      if (!this.$el.contains(event.target)) {
-        this.isOpen = false;
-        this.arrowCounter = -1;
-      }
-    },
-    onArrowDown() {
-      if (this.arrowCounter < this.results.length) {
-        this.arrowCounter = this.arrowCounter + 1;
-      }
-    },
-    onArrowUp() {
-      if (this.arrowCounter > 0) {
-        this.arrowCounter = this.arrowCounter - 1;
-      }
-    },
-    onEnter() {
-      this.search = this.results[this.arrowCounter];
-      this.isOpen = false;
-      this.arrowCounter = -1;
-    },
-  },
-};
-</script>
-
-<style>
-.autocomplete {
-  position: relative;
+<script setup>
+import { ref } from "vue";
+let input = ref("");
+const fruits = ["apple", "banana", "orange"];
+function filteredList() {
+  return fruits.filter((fruit) =>
+    fruit.toLowerCase().includes(input.value.toLowerCase())
+  );
 }
+</script>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 
-.autocomplete-results {
+* {
   padding: 0;
   margin: 0;
-  border: 1px solid #eeeeee;
-  height: 120px;
-  overflow: auto;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
 }
 
-.autocomplete-result {
-  list-style: none;
-  text-align: left;
-  padding: 4px 2px;
+body {
+  padding: 20px;
+  min-height: 100vh;
+  background-color: rgb(234, 242, 255);
+}
+
+input {
+  display: block;
+  width: 350px;
+  margin: 20px auto;
+  padding: 10px 45px;
+  background: white url("assets/search-icon.svg") no-repeat 15px center;
+  background-size: 15px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.item {
+  width: 350px;
+  margin: 0 auto 10px auto;
+  padding: 10px 20px;
+  color: white;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+.fruit {
+  background-color: rgb(97, 62, 252);
   cursor: pointer;
 }
 
-.autocomplete-result.is-active,
-.autocomplete-result:hover {
-  background-color: #4aae9b;
-  color: white;
+.error {
+  background-color: tomato;
 }
 </style>

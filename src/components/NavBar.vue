@@ -11,6 +11,8 @@ import SearchAutocomplete from "../components/SearchAutoComplete.vue";
     >
     <router-link to="/about" class="text-white mx-4">About</router-link>
     <router-link to="/project" class="text-white mx-4">Projets</router-link>
+    <router-link to="/contact" class="text-white mx-4">Contact</router-link>
+    <router-link to="/tableau" class="text-white mx-4">Tableau</router-link>
     <SearchAutocomplete />
   </nav>
 </template>
